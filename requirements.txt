@@ -1,0 +1,12 @@
+streamlit>=0.84.0
+numpy>=1.18.0
+tensorflow>=2.0
+opencv-python>=4.2.0
+matplotlib>=3.2.0
+tensorflow>=2.0.0
+keras>=2.0.0
+opencv-python-headless>=4.2.0.32
+h5py>=3.1.0
+gtts==2.2.2
+IPython==7.28.0
+ipywidgets==8.0.7
