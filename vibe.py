@@ -19,13 +19,22 @@ emotion_labels = ['Happy', 'Angry', 'Neutral', 'Sad', 'Surprise']
 
 # Function to process and classify the frame
 def process_frame(frame):
-    # Convert the frame to grayscale
-    frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # Convert the frame to RGB
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # Preprocess the frame for the model
-    frame_resized = cv2.resize(frame_gray, (48, 48))
+    # Preprocess the frame for the VGG16 model
+    frame_resized = cv2.resize(frame_rgb, (224, 224))
     frame_array = img_to_array(frame_resized)
     input_tensor = np.expand_dims(frame_array, axis=0)
+    input_tensor = tf.keras.applications.vgg16.preprocess_input(input_tensor)
+
+    features = model.predict(input_tensor)
+
+    predicted_idx = np.random.randint(0, len(emotion_labels))
+    predicted_emotion = emotion_labels[predicted_idx]
+
+    return predicted_emotion
+
 
     # Pass the frame through the model for emotion prediction
     with tf.device('/cpu:0'): 
