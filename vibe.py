@@ -97,15 +97,15 @@ def main():
         st.subheader("Star Rating")
 
         if star_rating == 1:
-          st.write("Not a very happy video indeed!")
+          st.write("😔 Not a very happy video indeed!")
         elif star_rating == 2:
-          st.write("Happiness stimuli is detected, in low quantities")
+          st.write("😶 Happiness stimuli is detected, in low quantities")
         elif star_rating == 3:
-          st.write("Happiness stimuli found in good quantities.")
+          st.write("😀 Happiness stimuli found in good quantities.")
         elif star_rating == 4:
-          st.write("Yay! A happy video.")
+          st.write("😄 Yay! A happy video.")
         else:
-          st.write("The HAPPIEST stimuli you can get is in this video!")
+          st.write("😁 The HAPPIEST stimuli you can get is in this video!")
 
 
         stars = "⭐" * star_rating
