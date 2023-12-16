@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import img_to_array
 import matplotlib.pyplot as plt
 from PIL import Image
 import plotly.graph_objects as go
