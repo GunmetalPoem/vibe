@@ -109,8 +109,9 @@ def main():
                 4: "😄 Yay! A happy video.",
                 5: "😁 The HAPPIEST stimuli you can get is in this video!"
             }
-            st.write(star_rating_text[star_rating])
             st.write(stars)
+            st.write(star_rating_text[star_rating])
+            
 
         with col2:
             st.subheader("Emotion Summary")
