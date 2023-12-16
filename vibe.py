@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
 
 # Loading pre-trained emotion detection CNN model
 model = tf.keras.applications.VGG16(weights='imagenet', include_top=False)  
