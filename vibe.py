@@ -57,7 +57,7 @@ def calculate_star_rating(happy_percentage):
         return 5
 
 def main():
-    st.title('Vibe')
+    st.title('🎛 Vibe')
 
     # File uploader to upload the MP4 video
     uploaded_file = st.file_uploader("Upload a video (MP4) to analyze the vibe!", type=["mp4"])
