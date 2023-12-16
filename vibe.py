@@ -56,62 +56,70 @@ def calculate_star_rating(happy_percentage):
     else:
         return 5
 
-def main():
-    st.title('🎬 Vibe')
+def main():  
+    st.sidebar.title("Settings")
+    # Add any configuration settings or model selections here in the sidebar
 
-    # File uploader to upload the MP4 video
+    st.title('🎬 Vibe: Emotion Detection from Video')
+
+    st.markdown("""
+        Welcome to Vibe! This app analyzes the emotional content of your video. 
+        Simply upload an MP4 video, and let the app detect the emotions throughout its duration.
+    """)
+
     uploaded_file = st.file_uploader("Upload a video (MP4) to analyze the vibe!", type=["mp4"])
 
     if uploaded_file is not None:
-        # Create a temporary file and write the uploaded video content to it
-        temp_file = tempfile.NamedTemporaryFile(delete=False)
-        temp_file.write(uploaded_file.read())
-        temp_file.close()
+        with st.spinner('Processing video...'):
+            # Video processing steps
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            temp_file.write(uploaded_file.read())
+            temp_file.close()
 
-        # Read the video file using OpenCV
-        cap = cv2.VideoCapture(temp_file.name)
+            cap = cv2.VideoCapture(temp_file.name)
+            emotions = []
+            timestamps = []
+            frame_num = 0
 
-        # Perform emotion detection and store emotions and timestamps in lists
-        emotions = []
-        timestamps = []
-        frame_num = 0
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
+            while cap.isOpened():
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                predicted_emotion = process_frame(frame)
+                emotions.append(predicted_emotion)
+                timestamps.append(frame_num / cap.get(cv2.CAP_PROP_FPS))
+                frame_num += 1
 
-            # Process the frame
-            predicted_emotion = process_frame(frame)
-            emotions.append(predicted_emotion)
-            timestamps.append(frame_num / cap.get(cv2.CAP_PROP_FPS))
-            frame_num += 1
+            cap.release()
 
-        # Release video capture
-        cap.release()
+            happy_percentage = (emotions.count('Happy') / len(emotions)) * 100
+            star_rating = calculate_star_rating(happy_percentage)
 
-        # Calculate the star rating based on the percentage of "Happy"
-        happy_percentage = (emotions.count('Happy') / len(emotions)) * 100
-        star_rating = calculate_star_rating(happy_percentage)
+        st.success("Analysis complete!")
 
-        # Display the star rating
-        st.subheader("Star Rating")
+        col1, col2 = st.columns(2)
 
-        if star_rating == 1:
-          st.write("😔 Not a very happy video indeed!")
-        elif star_rating == 2:
-          st.write("😶 Happiness stimuli is detected, in low quantities")
-        elif star_rating == 3:
-          st.write("😀 Happiness stimuli found in good quantities.")
-        elif star_rating == 4:
-          st.write("😄 Yay! A happy video.")
-        else:
-          st.write("😁 The HAPPIEST stimuli you can get is in this video!")
+        with col1:
+            st.subheader("Star Rating")
+            stars = "⭐" * star_rating
+            star_rating_text = {
+                1: "😔 Not a very happy video indeed!",
+                2: "😶 Happiness stimuli is detected, in low quantities",
+                3: "😀 Happiness stimuli found in good quantities.",
+                4: "😄 Yay! A happy video.",
+                5: "😁 The HAPPIEST stimuli you can get is in this video!"
+            }
+            st.write(star_rating_text[star_rating])
+            st.write(stars)
 
+        with col2:
+            st.subheader("Emotion Summary")
+            # Display a summary of the detected emotions
+            total_frames = len(emotions)
+            emotion_counts = {emotion: emotions.count(emotion) for emotion in emotion_labels}
+            for emotion, count in emotion_counts.items():
+                st.write(f"{emotion}: {count/total_frames*100:.2f}%")
 
-        stars = "⭐" * star_rating
-        st.write(stars)
-
-        # Plot emotions over time as a scatter plot using plotly
         st.subheader("Vibe Distribution Over Time")
         fig = go.Figure(data=go.Scatter(x=timestamps, y=emotions, mode='markers'))
         fig.update_layout(
@@ -121,14 +129,16 @@ def main():
         )
         st.plotly_chart(fig)
 
-        # Create pie chart for emotion percentages using plotly
         st.subheader("Vibe Distribution On A Pie Chart")
-        emotion_counts = {emotion: emotions.count(emotion) for emotion in emotion_labels}
-        total_frames = len(emotions)
-        percentages = [emotion_counts[emotion] / total_frames * 100 for emotion in emotion_labels]
-        pie_chart_data = {'Emotion': emotion_labels, 'Percentage': percentages}
+        pie_chart_data = {'Emotion': emotion_labels, 'Percentage': [emotion_counts[emotion] / total_frames * 100 for emotion in emotion_labels]}
         fig_pie = px.pie(pie_chart_data, values='Percentage', names='Emotion', title='Emotion Distribution')
         st.plotly_chart(fig_pie)
 
+        st.sidebar.subheader("Feedback")
+        feedback = st.sidebar.text_area("Share your feedback to improve Vibe:")
+        if st.sidebar.button("Submit Feedback"):
+            st.sidebar.write("Thank you for your feedback!")
+
 if __name__ == '__main__':
     main()
+
