@@ -57,10 +57,10 @@ def calculate_star_rating(happy_percentage):
         return 5
 
 def main():
-    st.title('Emotion Detection from MP4 Video')
+    st.title('Vibe')
 
     # File uploader to upload the MP4 video
-    uploaded_file = st.file_uploader("Upload a video (MP4)", type=["mp4"])
+    uploaded_file = st.file_uploader("Upload a video (MP4) to analyze the vibe!", type=["mp4"])
 
     if uploaded_file is not None:
         # Create a temporary file and write the uploaded video content to it
@@ -112,7 +112,7 @@ def main():
         st.write(stars)
 
         # Plot emotions over time as a scatter plot using plotly
-        st.subheader("Emotion Distribution Over Time")
+        st.subheader("Vibe Distribution Over Time")
         fig = go.Figure(data=go.Scatter(x=timestamps, y=emotions, mode='markers'))
         fig.update_layout(
             xaxis_title='Time (seconds)',
@@ -122,7 +122,7 @@ def main():
         st.plotly_chart(fig)
 
         # Create pie chart for emotion percentages using plotly
-        st.subheader("Emotion Distribution On A Pie Chart")
+        st.subheader("Vibe Distribution On A Pie Chart")
         emotion_counts = {emotion: emotions.count(emotion) for emotion in emotion_labels}
         total_frames = len(emotions)
         percentages = [emotion_counts[emotion] / total_frames * 100 for emotion in emotion_labels]
