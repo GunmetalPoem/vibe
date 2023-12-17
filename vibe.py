@@ -17,7 +17,7 @@ import base64
 model = tf.keras.applications.VGG16(weights='imagenet', include_top=False)  
 
 # Defining emotion labels 
-emotion_labels = ['Happy', 'Angry', 'Neutral', 'Sad', 'Surprise']
+emotion_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
 # Function to process and classify the frame
 def process_frame(frame):
