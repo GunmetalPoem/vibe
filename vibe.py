@@ -108,7 +108,7 @@ def main():
 
     uploaded_file = st.file_uploader("Upload a video (MP4) to analyze the vibe!", type=["mp4"])
 
-     if uploaded_file is not None:
+    if uploaded_file is not None:
         with st.spinner('Processing video...'):
             temp_file = tempfile.NamedTemporaryFile(delete=False)
             temp_file.write(uploaded_file.read())
