@@ -13,77 +13,8 @@ import pydeck as pdk
 import tempfile
 import base64
 
-def download_and_combine_model_parts():
-    # Define the URLs for the model parts
-    model_urls = [
-        'https://github.com/GunmetalPoem/vibe/raw/main/transfer_cnn.7z.001',
-        'https://github.com/GunmetalPoem/vibe/raw/main/transfer_cnn.7z.002',
-        # Add other parts URLs here if needed
-    ]
-
-    # Create a temporary directory to store downloaded parts
-    temp_dir = 'model_temp'
-    os.makedirs(temp_dir, exist_ok=True)
-
-    # Download each part and save it to the temporary directory
-    for part_url in model_urls:
-        st.write(f'Downloading {part_url}...')
-        filename = os.path.join(temp_dir, os.path.basename(part_url))
-        try:
-            # Download the part
-            content = st.download_button(
-                label=f'Download {os.path.basename(part_url)}',
-                key=f'download_button_{os.path.basename(part_url)}',
-                on_click=None,
-                args=None,
-                kwargs=None,
-                disabled=False,
-                use_container_width=False,
-                help=None,
-            )
-
-            # Save the part to the temporary directory
-            with open(filename, 'wb') as f:
-                f.write(content)
-
-            st.write(f'{os.path.basename(part_url)} downloaded successfully!')
-        except Exception as e:
-            st.write(f'Error downloading {os.path.basename(part_url)}: {e}')
-            return None
-
-    # Combine the downloaded parts into a single model file
-    st.write('Combining model parts...')
-    combined_model_filename = 'transfer_cnn.7z'
-    with open(combined_model_filename, 'wb') as combined_model_file:
-        for part_url in model_urls:
-            part_filename = os.path.join(temp_dir, os.path.basename(part_url))
-            with open(part_filename, 'rb') as part_file:
-                combined_model_file.write(part_file.read())
-
-    st.write('Model parts combined successfully!')
-    return combined_model_filename
-
-# Function to load the model
-def load_model():
-    combined_model_filename = download_and_combine_model_parts()
-    if combined_model_filename is not None:
-        # Load the model from the combined file
-        model = tf.keras.models.load_model(combined_model_filename)
-        return model
-    else:
-        return None
-
-# Load the model
-model = load_model()
-
-# Check if the model was loaded successfully
-if model is not None:
-    st.write('Model loaded successfully!')
-else:
-    st.write('Failed to load the model.')
-
 # Loading pre-trained emotion detection CNN model
-# model = tf.keras.applications.VGG16(weights='imagenet', include_top=False)  
+ model = tf.keras.applications.VGG19(weights='imagenet', include_top=False)  
 
 # Defining emotion labels 
 emotion_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
