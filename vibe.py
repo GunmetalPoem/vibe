@@ -83,7 +83,7 @@ def main():
     
     #logo
     logo_path = 'vibelogo-removebg-preview.png'
-    st.sidebar.image(logo_path, width=150) 
+    st.sidebar.image(logo_path, width=90) 
 
     st.sidebar.title("Settings")
     
