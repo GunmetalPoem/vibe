@@ -81,13 +81,22 @@ def get_table_download_link(df):
     return href
 
 def main():  
+    
     st.sidebar.title("Settings")
     
+    # Star rating chooser
     star_rating_emotion = st.sidebar.selectbox(
             "Choose the emotion for star rating:",
             options=emotion_labels,
             index=emotion_labels.index('Happy')  # Default to 'Happy'
         )
+    
+    # Add a slider to select the frame analysis interval
+    frame_interval = st.sidebar.slider("Analyze every X seconds (0 for every frame)", 
+                                       min_value=0, 
+                                       max_value=5, 
+                                       value=1)
+
     
     st.title('🎬 Vibe')
     st.header('Analyzing Emotional Resonance')
@@ -99,14 +108,16 @@ def main():
 
     uploaded_file = st.file_uploader("Upload a video (MP4) to analyze the vibe!", type=["mp4"])
 
-    if uploaded_file is not None:
+     if uploaded_file is not None:
         with st.spinner('Processing video...'):
-            # Video processing steps
             temp_file = tempfile.NamedTemporaryFile(delete=False)
             temp_file.write(uploaded_file.read())
             temp_file.close()
 
             cap = cv2.VideoCapture(temp_file.name)
+            fps = cap.get(cv2.CAP_PROP_FPS)  # Frames per second
+            interval_frames = max(1, int(frame_interval * fps))  # Calculate the number of frames per interval
+
             emotions = []
             timestamps = []
             frame_num = 0
@@ -115,9 +126,12 @@ def main():
                 ret, frame = cap.read()
                 if not ret:
                     break
-                predicted_emotion = process_frame(frame)
-                emotions.append(predicted_emotion)
-                timestamps.append(frame_num / cap.get(cv2.CAP_PROP_FPS))
+
+                if frame_num % interval_frames == 0:  # Process frame based on the selected interval
+                    predicted_emotion = process_frame(frame)
+                    emotions.append(predicted_emotion)
+                    timestamps.append(frame_num / fps)
+
                 frame_num += 1
 
             cap.release()
