@@ -47,13 +47,13 @@ def process_frame(frame):
     return predicted_emotion
 
 def calculate_star_rating(happy_percentage):
-    if happy_percentage <= 20:
+    if happy_percentage <= 10:
         return 1
-    elif happy_percentage <= 40:
+    elif happy_percentage <= 20:
         return 2
-    elif happy_percentage <= 60:
+    elif happy_percentage <= 30:
         return 3
-    elif happy_percentage <= 80:
+    elif happy_percentage <= 50:
         return 4
     else:
         return 5
