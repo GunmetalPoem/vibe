@@ -116,6 +116,15 @@ def main():
 
             cap = cv2.VideoCapture(temp_file.name)
             fps = cap.get(cv2.CAP_PROP_FPS)  # Frames per second
+            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            
+            #Error handling for short videos
+            video_duration = total_frames / fps  # Total duration of the video in seconds
+
+            if frame_interval > video_duration and frame_interval != 0:
+                st.error("Frame interval too large for this video.")
+                return
+                
             interval_frames = max(1, int(frame_interval * fps))  # Calculate the number of frames per interval
 
             emotions = []
