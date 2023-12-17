@@ -73,20 +73,19 @@ def generate_report(emotions, timestamps, star_rating, emotion_counts):
 
 def get_table_download_link(df):
     """Generates a link allowing the data in a given panda dataframe to be downloaded"""
-    # Converting DataFrame to CSV
     csv = df.to_csv(index=False)
-    # Encoding to base64
     b64 = base64.b64encode(csv.encode()).decode()
     href = f'<a href="data:file/csv;base64,{b64}" download="vibe_report.csv">Download CSV Report</a>'
     return href
 
 def main():  
     
-    st.sidebar.title("Settings")
     
     #logo
     logo_path = 'vibelogo-removebg-preview.png'
     st.sidebar.image(logo_path, width=150) 
+
+    st.sidebar.title("Settings")
     
     # Star rating chooser
     star_rating_emotion = st.sidebar.selectbox(
@@ -95,7 +94,7 @@ def main():
             index=emotion_labels.index('Happy')  # Default to 'Happy'
         )
     
-    # Add a slider to select the frame analysis interval
+    # Slider to select the frame analysis interval
     frame_interval = st.sidebar.slider("Analyze every X seconds (0 for every frame)", 
                                        min_value=0, 
                                        max_value=5, 
