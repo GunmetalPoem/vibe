@@ -117,10 +117,9 @@ def main():
 
             emotion_rating_text = {
                 'Happy': ["😔 Not a very happy video indeed!", "😶 Some happiness detected", "😀 Good amount of happiness!", "😄 A happy video!", "😁 The HAPPIEST video!"],
-                'Angry': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😡 Quite an angry video!", "😤 Extremely angry video!"],
-                'Surprise': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😡 Quite an angry video!", "😤 Extremely angry video!"],
-                'Sad': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😡 Quite an angry video!", "😤 Extremely angry video!"],
-                # Add similar text for other emotions
+                'Angry': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😤 Quite an angry video!", "😡 Extremely angry video!"],
+                'Surprise': ["😑 No surprise in the video", "😶 Slightly surprised video", "😯 Quite surprising video", "😲 Definitely surprised video", "🤯 Mind Blown!"],
+                'Sad': ["🙂 Not even a sad video!", "😐 Slightly sad video", "😔 Sad video", "😥 Near tears", "😭 Extremely sad video!"],
             }
             st.write(emotion_rating_text[star_rating_emotion][star_rating - 1])
             
