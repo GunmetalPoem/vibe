@@ -14,7 +14,15 @@ import tempfile
 import base64
 
 # Loading pre-trained emotion detection CNN model
-model = tf.keras.applications.VGG16(weights='imagenet', include_top=False)  
+# model = tf.keras.applications.VGG16(weights='imagenet', include_top=False)  
+
+cnn_path = "/content/gdrive/My Drive/transfer_cnn.zip"
+with zipfile.ZipFile(cnn_path, 'r') as zip_ref:
+  zip_ref.extractall('')
+
+
+# Load the CNN model
+model = tf.keras.models.load_model('transfer_cnn')
 
 # Defining emotion labels 
 emotion_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
