@@ -106,7 +106,7 @@ def main():
 
     st.markdown("""
         Welcome to Vibe! This app analyzes the emotional content of your video. 
-        Simply upload an MP4 video, and let the app detect the emotions throughout its duration.
+        Simply upload an MP4 video, and let the app detect the vibe.
     """)
 
     uploaded_file = st.file_uploader("Upload a video (MP4) to analyze the vibe!", type=["mp4"])
