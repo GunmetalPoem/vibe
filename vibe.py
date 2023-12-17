@@ -14,7 +14,7 @@ import tempfile
 import base64
 
 # Loading pre-trained emotion detection CNN model
- model = tf.keras.applications.VGG19(weights='imagenet', include_top=False)  
+model = tf.keras.applications.VGG19(weights='imagenet', include_top=False)  
 
 # Defining emotion labels 
 emotion_labels = ['Angry', 'Happy', 'Neutral', 'Sad', 'Surprise']
