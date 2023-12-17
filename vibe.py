@@ -11,6 +11,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 import pydeck as pdk
 import tempfile
+import base64
+
 # Loading pre-trained emotion detection CNN model
 model = tf.keras.applications.VGG16(weights='imagenet', include_top=False)  
 
