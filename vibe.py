@@ -60,7 +60,8 @@ def main():
     st.sidebar.title("Settings")
     # Add any configuration settings or model selections here in the sidebar
 
-    st.title('🎬 Vibe: Emotion Detection from Video')
+    st.title('🎬 Vibe')
+    st.title('Analyzing Emotional Resonance')
 
     st.markdown("""
         Welcome to Vibe! This app analyzes the emotional content of your video. 
