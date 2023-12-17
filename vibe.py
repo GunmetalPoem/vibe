@@ -84,6 +84,10 @@ def main():
     
     st.sidebar.title("Settings")
     
+    #logo
+    logo_path = 'vibelogo-removebg-preview.png'
+    st.sidebar.image(logo_path, width=150) 
+    
     # Star rating chooser
     star_rating_emotion = st.sidebar.selectbox(
             "Choose the emotion for star rating:",
