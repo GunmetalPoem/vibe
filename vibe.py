@@ -58,8 +58,13 @@ def calculate_star_rating(happy_percentage):
 
 def main():  
     st.sidebar.title("Settings")
-    # Add any configuration settings or model selections here in the sidebar
-
+    
+    star_rating_emotion = st.sidebar.selectbox(
+            "Choose the emotion for star rating:",
+            options=emotion_labels,
+            index=emotion_labels.index('Happy')  # Default to 'Happy'
+        )
+    
     st.title('🎬 Vibe')
     st.header('Analyzing Emotional Resonance')
 
@@ -102,16 +107,22 @@ def main():
 
         with col1:
             st.subheader("Star Rating")
+
+            # Calculate the star rating based on the selected emotion
+            selected_emotion_percentage = (emotions.count(star_rating_emotion) / len(emotions)) * 100
+            star_rating = calculate_star_rating(selected_emotion_percentage)
+
             stars = "⭐" * star_rating
-            star_rating_text = {
-                1: "😔 Not a very happy video indeed!",
-                2: "😶 Happiness stimuli is detected, in low quantities",
-                3: "😀 Happiness stimuli found in good quantities.",
-                4: "😄 Yay! A happy video.",
-                5: "😁 The HAPPIEST stimuli you can get is in this video!"
-            }
             st.write(stars)
-            st.write(star_rating_text[star_rating])
+
+            emotion_rating_text = {
+                'Happy': ["😔 Not a very happy video indeed!", "😶 Some happiness detected", "😀 Good amount of happiness!", "😄 A happy video!", "😁 The HAPPIEST video!"],
+                'Angry': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😡 Quite an angry video!", "😤 Extremely angry video!"],
+                'Surprise': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😡 Quite an angry video!", "😤 Extremely angry video!"],
+                'Sad': ["😊 Not an angry video at all!", "😐 Slight anger detected", "😠 Noticeable anger", "😡 Quite an angry video!", "😤 Extremely angry video!"],
+                # Add similar text for other emotions
+            }
+            st.write(emotion_rating_text[star_rating_emotion][star_rating - 1])
             
 
         with col2:
