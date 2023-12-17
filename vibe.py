@@ -61,7 +61,7 @@ def main():
     # Add any configuration settings or model selections here in the sidebar
 
     st.title('🎬 Vibe')
-    st.title('Analyzing Emotional Resonance')
+    st.header('Analyzing Emotional Resonance')
 
     st.markdown("""
         Welcome to Vibe! This app analyzes the emotional content of your video. 
