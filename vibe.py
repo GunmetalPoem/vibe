@@ -57,6 +57,28 @@ def calculate_star_rating(happy_percentage):
         return 4
     else:
         return 5
+        
+def generate_report(emotions, timestamps, star_rating, emotion_counts):
+    report = ""
+    report += "Vibe Video Analysis Report\n\n"
+    report += f"Star Rating: {star_rating} out of 5\n\n"
+    report += "Emotion Distribution:\n"
+    for emotion, count in emotion_counts.items():
+        report += f"{emotion}: {count}\n"
+    report += "\nTimestamps and Detected Emotions:\n"
+    for time, emotion in zip(timestamps, emotions):
+        report += f"Time: {time} - Emotion: {emotion}\n"
+    
+    return report
+
+def get_table_download_link(df):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded"""
+    # Converting DataFrame to CSV
+    csv = df.to_csv(index=False)
+    # Encoding to base64
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="vibe_report.csv">Download CSV Report</a>'
+    return href
 
 def main():  
     st.sidebar.title("Settings")
@@ -148,10 +170,14 @@ def main():
         fig_pie = px.pie(pie_chart_data, values='Percentage', names='Emotion', title='Emotion Distribution')
         st.plotly_chart(fig_pie)
 
-        st.sidebar.subheader("Feedback")
-        feedback = st.sidebar.text_area("Share your feedback to improve Vibe:")
-        if st.sidebar.button("Submit Feedback"):
-            st.sidebar.write("Thank you for your feedback!")
+         # Generate report
+        report = generate_report(emotions, timestamps, star_rating, emotion_counts)
+    
+        # Create a link to download the report
+        st.sidebar.download_button(label="Download Report",
+                                   data=report,
+                                   file_name="vibe_report.txt",
+                                   mime="text/plain")
 
 if __name__ == '__main__':
     main()
